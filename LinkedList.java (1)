@@ -1,0 +1,202 @@
+import java.util.Scanner;
+
+public class LinkedList {
+    Node head;
+
+	class Node
+	{
+		int data;
+		Node next;
+		Node(int d) {
+            data = d; 
+            next = null; 
+        }
+	}
+
+	/* Inserts a new Node at front of the list. */
+	public void insertAtFirst(int data)
+	{
+        Node node = new Node(data);
+        if (head == null){
+            head = node;
+        }
+        else{
+            node.next = head;
+            head = node;
+        }
+
+	}
+	public void insertAtSpecific(int pos, int data)
+	{
+        Node node = new Node(data);
+		if (head == null)
+		{
+			head = node;
+		}
+        else{
+            if(pos == 1){
+                node.next = head;
+                head = node;
+            }
+            else{
+                Node temp, temp1;
+                int count = 1,flag = 0;
+                temp1 = head;
+                while(temp1!=null){
+                    temp = temp1;
+                    temp1 = temp1.next;
+                    if (count == pos-1){
+                        node.next = temp1;
+                        temp.next = node;
+                        flag = 1;
+                        break;
+                    }
+                    count++;
+                }
+                if (flag == 0){
+                    System.out.println("Position out of reach");
+                }
+            }
+        }
+	}
+	
+	public void insertAtLast(int data)
+	{
+		Node node = new Node(data);
+		if (head == null)
+		{
+			head = node;
+		}
+        else {
+            Node temp = head;
+            while (temp.next != null) {
+                temp = temp.next;
+            }
+            temp.next = node;
+        }
+
+	}
+    void deleteSpecific(int pos)
+    {
+        if (head == null)
+            System.out.println("Linked List is empty. Nothing to delete.");
+        else{
+            if (pos == 1) {
+                Node temp = head;
+                head = head.next;
+                System.out.println("Element being deleted:"+temp.data);
+                temp = null;
+            }
+            else{
+                Node t1, t2;
+                int count = 1,flag = 0;
+                t1 = head;
+                t2 = t1.next;
+                while(t2!=null){
+                    
+                    if (count == pos-1){
+                        System.out.println("Element to be deleted:"+t2.data);
+                        t1.next = t2.next;
+                        t2 = null;
+                        flag = 1;
+                        break;
+                    }
+                    t1 = t1.next;
+                    t2 = t2.next;
+                    count++;
+                }
+                if (flag == 0){
+                    System.out.println("Position out of reach");
+                }
+            }
+        }
+        
+    }
+
+    public void deleteFirst(){
+        if (head == null)
+            System.out.println("Linked List is empty. Nothing to delete.");
+        else{
+            Node temp = head;
+            head = head.next;
+            System.out.println("Element being deleted:"+temp.data);
+            temp = null;
+        }
+    }
+
+    public void deleteLast(){
+        if (head == null)
+            System.out.println("Linked List is empty. Nothing to delete.");
+        else{
+            Node t1 = head;
+            Node t2 = head.next;
+            while (t2.next!=null){
+                t1 = t1.next;
+                t2 = t2.next;
+            }
+            System.out.println("Element being deleted:"+t2.data);
+            t1.next = null;
+            t2 = null;;
+        }
+    }
+ 
+	public void traversal(){
+		Node temp = head;
+		while (temp != null)
+		{
+			System.out.print(temp.data+" ");
+			temp = temp.next;
+		}
+        System.out.println();
+	}
+	public static void main(String[] args)
+	{
+		LinkedList list = new LinkedList();
+        Scanner sc = new Scanner(System.in);
+        char choice;
+        int data,pos;
+        do{
+            System.out.println("1.Insert data at first\n2.Insert data at last\n3.Insert data at specific position\n4.Delete data at first\n5.Delete data from last\n6.Delete data from specific position\n7.Display linked list");
+            System.out.println("Enter your choice:");
+            int ch = sc.nextInt();
+            switch (ch){
+                case 1:
+                    System.out.println("Enter data to be inserted:");
+                    data = sc.nextInt();
+                    list.insertAtFirst(data);
+                    break;
+                case 2:
+                    System.out.println("Enter data to be inserted:");
+                    data = sc.nextInt();
+                    list.insertAtLast(data);
+                    break;
+                case 3:
+                    System.out.println("Enter data to be inserted:");
+                    data = sc.nextInt();
+                    System.out.println("Enter position:");
+                    pos = sc.nextInt();
+                    list.insertAtSpecific(pos,data);
+                    break;
+                case 4:
+                    list.deleteFirst();
+                    break;
+                case 5:
+                    list.deleteLast();
+                    break;
+                case 6:
+                    System.out.println("Enter position to delete:");
+                    pos = sc.nextInt();
+                    list.deleteSpecific(pos);
+                    break;
+                case 7:
+                    System.out.print("Linked List: ");
+                    list.traversal();
+                    break;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+            System.out.println("Continue?(Y/N)");
+            choice = sc.next().charAt(0);
+        }while (choice == 'y' || choice == 'Y');
+	}
+}
